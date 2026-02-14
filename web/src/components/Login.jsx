@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import '../App.css'; // Import styles
 
 const Login = () => {
     const [formData, setFormData] = useState({ email: '', password: '' });
@@ -13,27 +14,29 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:8080/api/auth/login', formData);
-            // Save token/user info (Mocking it for now)
-            localStorage.setItem('user', JSON.stringify(res.data));
+            await axios.post('http://localhost:8080/api/auth/login', formData);
             navigate('/dashboard');
         } catch (error) {
             console.error("Login failed", error);
-            // FOR SCREENSHOTS ONLY: If you need to snap the dashboard, click this to bypass
-            // navigate('/dashboard'); 
             alert("Backend not connected (Expected for Lab)");
         }
     };
 
     return (
-        <div style={{ padding: '20px' }}>
-            <h2>Login</h2>
+        <div className="auth-container">
+            <h2>Welcome Back</h2>
             <form onSubmit={handleSubmit}>
-                <input type="email" name="email" placeholder="Email" onChange={handleChange} required /><br /><br />
-                <input type="password" name="password" placeholder="Password" onChange={handleChange} required /><br /><br />
-                <button type="submit">Login</button>
+                <div className="form-group">
+                    <label>Email Address</label>
+                    <input type="email" name="email" onChange={handleChange} required />
+                </div>
+                <div className="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" onChange={handleChange} required />
+                </div>
+                <button type="submit">Log In</button>
             </form>
-            <p>Don't have an account? <a href="/register">Register here</a></p>
+            <p>Don't have an account? <a href="/register">Sign up</a></p>
         </div>
     );
 };
