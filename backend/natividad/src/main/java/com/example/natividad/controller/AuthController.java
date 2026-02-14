@@ -42,4 +42,8 @@ public class AuthController {
         }
         return "Invalid credentials";
     }
+    @PostMapping("/logout")
+    public String logout() {
+        return "{\"message\": \"Logged out successfully\"}";
+    }
 }
